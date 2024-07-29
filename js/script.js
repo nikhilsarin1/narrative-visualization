@@ -221,4 +221,3 @@ function drawGraphWithAnnotations(svg, data, x, y, margin, width, height) {
         }
     });
 }
-
