@@ -2,16 +2,14 @@ const elNinoYears = [1891, 1926, 1973, 1983, 1998, 2016];
 
 async function loadData() {
     const data = await d3.csv("data/temperature.csv", d => {
-        return { ...d, Year: +d.Year, J_D: +d['J-D'] }; // Parsing logic
+        return { ...d, Year: +d.Year, J_D: +d['J-D'] };
     });
     return data.filter(d => !isNaN(d.Year) && !isNaN(d.J_D));
 }
 
 function updateVisualization(data, svg, startYear, endYear) {
-    // Filter the data to include only the range between the start and end years
     const filteredData = data.filter(d => d.Year >= startYear && d.Year <= endYear);
 
-    // Reinitialize the visualization with the filtered data
     initializeVisualization(filteredData, svg);
 }
 
@@ -20,7 +18,6 @@ function initializeVisualization(data, svg) {
     const width = 960 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
-    // Define scales within the function to ensure they are updated
     const x = d3.scaleLinear().domain(d3.extent(data, d => d.Year)).range([0, width]);
     const y = d3.scaleLinear().domain([d3.min(data, d => d.J_D), d3.max(data, d => d.J_D)]).nice().range([height, 0]);
 
@@ -30,8 +27,8 @@ function initializeVisualization(data, svg) {
 document.addEventListener("DOMContentLoaded", async function() {
     const data = await loadData();
     const svg = setupSvg();
-    initializeButtons(data, svg); // Pass data and SVG to buttons for further initialization
-    initializeVisualization(data, svg); // Initialize visualization
+    initializeButtons(data, svg);
+    initializeVisualization(data, svg); 
     d3.select("#controls-introduction").style("display", "block");
 
     const startYearSlider = document.getElementById('startYear');
@@ -63,7 +60,6 @@ function initializeButtons(data, svg) {
         const startYearLabel = document.getElementById('startYearLabel');
         const endYearLabel = document.getElementById('endYearLabel');
 
-        // Reset sliders to their minimum and maximum values
         startYearSlider.value = startYearSlider.min;
         endYearSlider.value = endYearSlider.max;
         startYearLabel.textContent = startYearSlider.value;
@@ -80,11 +76,10 @@ function initializeButtons(data, svg) {
         const width = 960 - margin.left - margin.right;
         const height = 600 - margin.top - margin.bottom;
 
-        // Define scales within the button click to ensure they are updated
         const x = d3.scaleLinear().domain(d3.extent(data, d => d.Year)).range([0, width]);
         const y = d3.scaleLinear().domain([d3.min(data, d => d.J_D), d3.max(data, d => d.J_D)]).nice().range([height, 0]);
 
-        drawGraphWithAnnotations(svg, data, x, y, margin, width, height); // Draw graph with annotations
+        drawGraphWithAnnotations(svg, data, x, y, margin, width, height); 
         d3.select("#controls-introduction").style("display", "none");
         d3.select("#controls-effects").style("display", "none");
     });
@@ -103,7 +98,6 @@ function setupSvg() {
         .append("g")
         .attr("transform", "translate(50, 50)");
 
-    // Define a clipping path
     svg.append("defs").append("clipPath")
         .attr("id", "clip")
         .append("rect")
@@ -114,7 +108,7 @@ function setupSvg() {
 }
 
 function drawIntroduction(svg, data, x, y, margin, width, height) {
-    svg.selectAll("*").remove(); // Clear previous contents
+    svg.selectAll("*").remove();
 
     const line = d3.line()
         .defined(d => !isNaN(d.J_D))
@@ -137,14 +131,12 @@ function drawIntroduction(svg, data, x, y, margin, width, height) {
         .attr("transform", `translate(${margin.left},${margin.top})`)
         .call(d3.axisLeft(y));
 
-    // Adding X-axis label
     svg.append("text")
         .attr("text-anchor", "middle")
         .attr("x", width / 2 + margin.left)
         .attr("y", height + margin.top + 50)
         .text("Year");
 
-    // Adding Y-axis label
     svg.append("text")
         .attr("text-anchor", "middle")
         .attr("transform", `rotate(-90)`)
@@ -154,7 +146,7 @@ function drawIntroduction(svg, data, x, y, margin, width, height) {
 }
 
 function drawGraphWithAnnotations(svg, data, x, y, margin, width, height) {
-    svg.selectAll("*").remove(); // Clear previous contents
+    svg.selectAll("*").remove();
 
     const line = d3.line()
         .defined(d => !isNaN(d.J_D))
@@ -177,10 +169,9 @@ function drawGraphWithAnnotations(svg, data, x, y, margin, width, height) {
         .attr("transform", `translate(${margin.left},${margin.top})`)
         .call(d3.axisLeft(y));
 
-    // Text element for displaying temperature differences
     let infoText = svg.append("text")
         .attr("x", width / 2 + margin.left)
-        .attr("y", margin.top - 20) // Position above the graph
+        .attr("y", margin.top - 20)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
         .style("fill", "black")
@@ -230,9 +221,9 @@ function drawGraphWithAnnotations(svg, data, x, y, margin, width, height) {
 }
 
 function setupElNinoEffectsButtons(data, svg) {
-    svg.selectAll("*").remove(); // Clear the SVG to prepare for a new scene
+    svg.selectAll("*").remove();
     const controls = document.getElementById('elnino-buttons');
-    controls.innerHTML = ''; // Make sure previous buttons are removed
+    controls.innerHTML = '';
 
     elNinoYears.forEach(year => {
         let button = document.createElement('button');
