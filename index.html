@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Temperature Trends</title>
+    <title>Global Temperature Anomalies Over Time</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div id="navigation">
+        <button id="btn-intro">Introduction</button>
+        <button id="btn-history">Historical Trends</button>
+        <button id="btn-decade">Decadal Analysis</button>
+    </div>
+    <div id="controls-introduction" style="display: none;">
+        <label for="yearRangeSlider">Year Range:</label>
+        <input type="range" id="yearRangeSlider" min="1880" max="2024" value="1976" step="1">
+        <label for="smoothData">Smooth Data:</label>
+        <input type="checkbox" id="smoothData">
+    </div>
     <div id="visualization"></div>
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="js/data.js"></script>
     <script src="js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
 </body>
 </html>

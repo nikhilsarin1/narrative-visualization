@@ -13,3 +13,15 @@ body, html {
     justify-content: center;
     align-items: center;
 }
+
+#controls {
+    margin-bottom: 20px;
+}
+
+#controls div {
+    margin: 10px 0;
+}
+
+input[type="range"], input[type="checkbox"] {
+    margin-left: 10px;
+}
