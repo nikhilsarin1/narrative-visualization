@@ -71,6 +71,7 @@ function initializeButtons(data, svg) {
 
         updateVisualization(data, svg, parseInt(startYearSlider.value), parseInt(endYearSlider.value));
 
+        d3.select("#controls-effects").style("display", "none");
         d3.select("#controls-introduction").style("display", "block");
     });
 
@@ -85,8 +86,14 @@ function initializeButtons(data, svg) {
 
         drawGraphWithAnnotations(svg, data, x, y, margin, width, height); // Draw graph with annotations
         d3.select("#controls-introduction").style("display", "none");
+        d3.select("#controls-effects").style("display", "none");
     });
-    // Setup other buttons similarly
+
+    d3.select("#btn-effects").on("click", () => {
+        setupElNinoEffectsButtons(data, svg);
+        d3.select("#controls-introduction").style("display", "none");
+        d3.select("#controls-effects").style("display", "block");
+    });
 }
 
 function setupSvg() {
@@ -220,4 +227,22 @@ function drawGraphWithAnnotations(svg, data, x, y, margin, width, height) {
             });
         }
     });
+}
+
+function setupElNinoEffectsButtons(data, svg) {
+    svg.selectAll("*").remove(); // Clear the SVG to prepare for a new scene
+    const controls = document.getElementById('elnino-buttons');
+    controls.innerHTML = ''; // Make sure previous buttons are removed
+
+    elNinoYears.forEach(year => {
+        let button = document.createElement('button');
+        button.textContent = `El Niño ${year}`;
+        button.onclick = () => displayElNinoEffects(data, svg, year);
+        controls.appendChild(button);
+    });
+}
+
+function displayElNinoEffects(data, svg, selectedYear) {
+    const filteredData = data.filter(d => d.Year >= selectedYear && d.Year <= selectedYear + 5);
+    initializeVisualization(filteredData, svg);
 }

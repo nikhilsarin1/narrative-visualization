@@ -10,7 +10,7 @@
     <div id="navigation">
         <button id="btn-intro">Introduction</button>
         <button id="btn-elnino">El Niño Events</button>
-        <button id="btn-decade">Decadal Analysis</button>
+        <button id="btn-effects">El Niño Effects</button>
     </div>
     <div id="controls-introduction" class="controls-container" style="display: none;">
         <div class="slider-container">
@@ -23,6 +23,12 @@
             <input type="range" id="endYear" min="1880" max="2024" value="2024" step="1">
             <span id="endYearLabel">2024</span>
         </div>
+    </div>
+    <div id="controls-effects" class="controls-container" style="display: none;">
+        <p style="text-align: center; font-size: 18px; margin-bottom: 10px;">
+            Click on each year to see the effects of El Niño.
+        </p>
+        <div id="elnino-buttons"></div>
     </div>
     <div id="visualization"></div>
     <script src="https://d3js.org/d3.v6.min.js"></script>
